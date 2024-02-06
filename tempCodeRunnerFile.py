@@ -3,7 +3,6 @@ from tkinter import filedialog
 import tkinter as tk
 from PIL import Image, ImageTk
 import os
-from tkinter import messagebox
 from stegano import lsb
 
 root = Tk()
@@ -12,7 +11,6 @@ root.geometry("700x500")
 root.configure(bg="#36454F")
 
 filename = None  # Define filename as a global variable
-secret = None     # Define secret as a global variable to track if secret has been created
 
 def showimage():
     global filename
@@ -21,36 +19,28 @@ def showimage():
                                   filetype=(("PNG file", "*.png"),
                                             ("JPG File", "*.jpg"),
                                             ("All file", "*.txt")))
-    if file:
-        filename = file.name  # Store the file name
-        img = Image.open(filename)
-        img = ImageTk.PhotoImage(img)
-        lbl.configure(image=img, width=250, height=250)
-        lbl.img = img
-    else:
-        messagebox.showwarning("Warning", "Please select an image first.")
+    filename = file.name  # Store the file name
+    img = Image.open(filename)
+    img = ImageTk.PhotoImage(img)
+    lbl.configure(image=img, width=250, height=250)
+    lbl.img = img
 
 def Hide():
-    global filename, secret
-    if filename:
-        message = text1.get(1.0, END)
-        secret = lsb.hide(filename, message)  # Use filename instead of str(filename)
-    else:
-        messagebox.showwarning("Warning", "Please select an image first.")
+    global filename
+    global secret
+    message = text1.get(1.0, END)
+    secret = lsb.hide(filename, message)  # Use filename instead of str(filename)
 
 def Show():
     global filename
-    if filename:
-        clear_message = lsb.reveal(filename)
-        text1.delete(1.0, END)  # Corrected from text.delete() to text1.delete()
-        text1.insert(END, clear_message)
-    else:
-        messagebox.showwarning("Warning", "Please select an image first.")
+    clear_message = lsb.reveal(filename)
+    text1.delete(1.0, END)  # Corrected from text.delete() to text1.delete()
+    text1.insert(END, clear_message)
 
 def reset():
-    global filename, secret
+    global filename
+    global secret
     filename = None
-    secret = None
     lbl.configure(image="", width=250, height=250)
     text1.delete(1.0, END)
 
@@ -59,17 +49,10 @@ def save():
     if secret:
         filename_parts = os.path.splitext(filename)
         new_filename = f"{filename_parts[0]}_stegno{filename_parts[1]}"
-        
-        # Convert the image to RGB mode before saving
-        secret = secret.convert("RGB")
-        
-        # Save the converted image
         secret.save(new_filename)
         reset()  # Reset the image and text after saving
-    else:
-        messagebox.showwarning("Warning", "Please hide some data first.")
 
-
+# ICONS
 image_icon = PhotoImage(file="logo.jpg")
 root.iconphoto(False, image_icon)
 
