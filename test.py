@@ -42,6 +42,8 @@ def Hide():
         return
     message = text1.get(1.0, END)
     secret = lsb.hide(filename, message)
+    text1.delete(1.0, END)  # Add this line to clear the text after hiding data
+
 
 def Show():
     global filename
