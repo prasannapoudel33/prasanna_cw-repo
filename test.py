@@ -42,8 +42,7 @@ def Hide():
         return
     message = text1.get(1.0, END)
     secret = lsb.hide(filename, message)
-    text1.delete(1.0, END)  # Add this line to clear the text after hiding data
-
+    text1.delete(1.0, END)  # Clear the text after hiding data
 
 def Show():
     global filename
@@ -118,8 +117,9 @@ Label(frame3, text="Picture, Image, Photo File", bg="#2f4155", fg="yellow").plac
 frame4 = Frame(root, bd=3, bg="#2f4155", width=330, height=100, relief=GROOVE)
 frame4.place(x=360, y=370)
 
-Button(frame4, text="Hide Data", width=10, height=2, font="arial 14 bold", command=Hide).place(x=20, y=30)
-Button(frame4, text="Show Data", width=10, height=2, font="arial 14 bold", command=Show).place(x=180, y=30)
+Button(frame4, text="Hide", width=6, height=2, font="arial 14 bold", command=Hide).place(x=20, y=30)
+Button(frame4, text="Show", width=6, height=2, font="arial 14 bold", command=Show).place(x=180, y=30)
+Button(frame4, text="Clear", width=6, height=2, font="arial 14 bold", command=reset).place(x=100, y=30)  # Clear All button
 Label(frame4, text="Steganography Operations", bg="#2f4155", fg="yellow").place(x=20, y=5)
 
 root.mainloop()
